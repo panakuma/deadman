@@ -250,13 +250,13 @@ class Ping :
 
         result = getoutput (pingcmd)
 
-        rttm = re.search (r'time=(\d+\.\d+)', result)
+        rttm = re.search (u'時間=(\d+\.\d+)', result)
         if not rttm:
-            rttm = re.search (r'time=(\d+)', result)
+            rttm = re.search (u'時間=(\d+)', result)
 
-        ttlm = re.search (r'ttl=(\d+)', result)
+        ttlm = re.search (u'ttl=(\d+)', result)
         if not ttlm:
-            ttlm = re.search (r'hlim=(\d+)', result)
+            ttlm = re.search (u'hlim=(\d+)', result)
 
         res = PingResult ()
 
@@ -675,7 +675,7 @@ def pingcmdstrings (osname, ipv) :
     # XXX : add new osname (uname -s) to support new OS.
     if osname == "Linux" :
         if ipv == 4 : return "ping -W 1 -c 1"
-        if ipv == 6 : return "ping6 -i 1 -c 1"
+        if ipv == 6 : return "ping -i 1 -c 1"
     elif osname == "Darwin" :
         if ipv == 4 : return "ping -W 1000 -c 1"
         if ipv == 6 : return "ping6 -i 1 -c 1"
