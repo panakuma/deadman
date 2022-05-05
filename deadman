@@ -40,9 +40,9 @@ except:
 ARROW = " > "
 REAR  = "   "
 PING_INTERVAL = 0.05
-PING_ALLTARGET_INTERVAL = 1
-MAX_HOSTNAME_LENGTH = 20
-MAX_ADDRESS_LENGTH = 40
+PING_ALLTARGET_INTERVAL = 0.5
+MAX_HOSTNAME_LENGTH = 30
+MAX_ADDRESS_LENGTH = 50
 RESULT_STR_LENGTH = 10
 
 DEFAULT_COLOR = 1
@@ -265,22 +265,13 @@ class Ping:
         (out, err) = await proc.communicate()
         result = out.decode("utf-8")
 
-        if os.getenv('LANG') == 'ja_JP.UTF-8':
-            rttm = re.search(r'時間=(\d+\.\d+)', result)
-            if not rttm:
-                rttm = re.search(r'時間=(\d+)', result)
+        rttm = re.search(r'time=(\d+\.\d+)', result)
+        if not rttm:
+            rttm = re.search(r'time=(\d+)', result)
 
-            ttlm = re.search(r'時間=(\d+)', result)
-            if not ttlm:
-                ttlm = re.search(r'hlim=(\d+)', result)
-        else:
-            rttm = re.search(r'time=(\d+\.\d+)', result)
-            if not rttm:
-                rttm = re.search(r'time=(\d+)', result)
-
-            ttlm = re.search(r'ttl=(\d+)', result)
-            if not ttlm:
-                ttlm = re.search(r'hlim=(\d+)', result)
+        ttlm = re.search(r'ttl=(\d+)', result)
+        if not ttlm:
+            ttlm = re.search(r'hlim=(\d+)', result)
 
         res = PingResult()
 
